@@ -1,0 +1,19 @@
+/* CSS */
+.card-img12 {
+    max-width: 100%;
+    max-height: 300px; /* Set the initial maximum height */
+  }
+  
+  @media (min-width: 992px) {
+    /* Adjust the max-height for larger screens */
+    .card-img12 {
+      max-height: 400px; /* Set a higher max-height for larger screens */
+    }
+  }
+  
+  
+  
+  .card-img-fixed-height {
+  height: 200px; /* Set the desired height */
+  object-fit: cover; /* Ensure the image covers the specified height without stretching */
+}

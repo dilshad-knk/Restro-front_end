@@ -1,0 +1,14 @@
+/* CSS */
+.card-imgd {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px; /* Set the initial maximum height */
+  }
+  
+  @media (min-width: 992px) {
+    /* Adjust the max-height for larger screens */
+    .card-imgd {
+      max-height: 500px; /* Set a higher max-height for larger screens */
+    }
+  }
+  
