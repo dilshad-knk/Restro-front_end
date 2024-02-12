@@ -49,11 +49,8 @@ function Addrestaurant() {
         
         try {
         	
-		const res = await instance.post('/restaurant/add', formData, {
-			  headers: {
-			    'Content-Type': 'multipart/form-data',
-			  },
-			  withCredentials: true,
+		const res = await instance.post('/restaurant/add',
+			  {withCredentials: true,
 			});
 
 				

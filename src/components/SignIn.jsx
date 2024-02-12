@@ -77,9 +77,7 @@ function SignIn() {
           let res = await instance.post('/users/login', {
             email: userEmail,
             password: userPassword,
-          }
-            ,
-            {withCredentials: true, 
+          },{withCredentials: true, 
           })
           console.log(res)
           if(res.data.isAuthenticated){
