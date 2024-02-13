@@ -21,9 +21,8 @@ function Addrestaurant() {
     });
     
      const navigate = useNavigate();
-  
-    console.log(restaurantDetails);
-
+  console.log(restaurantDetails.photograph)
+   
     const handleSubmit = async (event) => {
       event.preventDefault();
       const form = event.currentTarget;
@@ -35,6 +34,7 @@ function Addrestaurant() {
         
       }  else{
         
+        console.log(restaurantDetails.photograph)
         
         const formData = new FormData();
         
@@ -44,14 +44,24 @@ function Addrestaurant() {
         	formData.append('cuisine',restaurantDetails.cuisine);
         	formData.append('photograph',restaurantDetails.photograph);
         	
-        
+        console.log('formData',formData);
+
         
         
         try {
+        
+       console.log(restaurantDetails);
+
         	
-		const res = await instance.post('/restaurant/add',
-			  {withCredentials: true,
-			});
+		const res = await instance.post('/restaurant/add', formData, {
+              headers:{
+                'Content-Type':'multipart/form-data',
+              },
+              withCredentials:true
+            }
+            );
+            
+             console.log(res)
 
 				
 		if (!res.data.success) {
@@ -66,7 +76,7 @@ function Addrestaurant() {
 
         } catch (error) {
         
-        	 toast.error(error.response.data.message);
+        	 toast.error("catch error");
         	
         
         }

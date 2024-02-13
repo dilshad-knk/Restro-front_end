@@ -1,59 +1,66 @@
 import React, { useState } from 'react'
-import { Button, Modal } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons';
+import { Button, Modal } from 'react-bootstrap'
+import { Trash } from 'react-bootstrap-icons'
 import instance from '../axios/axios';
-import { ToastContainer, toast } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { showFailureAlert, showSuccessAlert } from '../Utils/toastifyAlert';
 
-function DeleteUser({id,users,setUsers}) {
+function DeleteUser({id, users, setUsers}) {
 
     const [show, setShow] = useState(false);
-   
-    console.log(id);
+    const navigate = useNavigate();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
-  
     const handleConfirm = async()=>{
-        setShow(false)
-        try {
-           const res = await instance.delete(`/users/user/${id}`,{withCredentials: true})
+	  
+        setShow(false);
 
-           if (res.data.success) {
-            toast.success(res.data.message, {
-              onClose: () => {
-                setUsers(users.filter((user) => user._id !== id));
-              },
-              autoClose: 500,
-            });
+       try {
+
+        const res = await instance.delete(`/users/user/${id}`, {
+            withCredentials:true
+        });
+
+        if(res.data.success){
+            
+            showSuccessAlert(res.data.message);
+            
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            setUsers(users.filter((user) => user._id !== id));
+            navigate('/allUsers');
+  
           }
+          
 
-            
-        } catch (error) {
-            
-                toast.error(error.response.data.message);
-            
-        }
+        
+       } catch (error) {
+        
+        
+        showFailureAlert(error.response.data.message)
+
+
+       }
+
+
+
     }
 
-  return (
     
+  return (
     <>
-        <Trash onClick={handleShow}/>
-        
-        <ToastContainer 
-          position="top-center"
-          
-        />
-        
+   
 
-      <Modal show={show} onHide={handleClose} animation={false}>
+        <Trash onClick={handleShow}/>
+
+        <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete User</Modal.Title>
+          <Modal.Title>Confirm Delete User</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are u sure you that you want to delete the User ?</Modal.Body>
+        <Modal.Body>Are you sure that you want to delete the user?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -64,6 +71,7 @@ function DeleteUser({id,users,setUsers}) {
         </Modal.Footer>
       </Modal>
     </>
+    
   )
 }
 

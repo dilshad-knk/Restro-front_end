@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Table } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {PencilSquare} from 'react-bootstrap-icons';
 import DeleteUser from './DeleteUser';
 import instance from '../axios/axios';
@@ -20,12 +21,13 @@ function Users() {
     const getAllUsers = async ()=>{
       try {
           const res = await  instance.get('/users/allUsers',{withCredentials : true});
+          
           setUsers(res.data.users)
       } catch (error) {
           
     
       
-        toast.error(`Error: ${error.response.data.message}`);
+        toast.error(error.response.data.message);
         await new Promise((resolve) => setTimeout(resolve, 2000));
         navigate('/login');
               
